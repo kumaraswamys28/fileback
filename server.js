@@ -1,10 +1,9 @@
-// server.js
 import express from "express";
 import http from "http";
 import { Server } from "socket.io";
 import cors from "cors";
 import dotenv from "dotenv";
-import { socketHandler } from "./socket.js"; // <-- import your handler
+import { socketHandler } from "./socket.js";
 import routes from './routes/index.js';
 
 dotenv.config();
@@ -28,7 +27,7 @@ const io = new Server(server, {
   },
 });
 
-socketHandler(io); // attach socket logic
+socketHandler(io); 
 
 const PORT = process.env.PORT || 5000;
 server.listen(PORT, () => {

@@ -3,6 +3,7 @@ import { ACTIONS } from "./actions.js";
 const userMapping = {};
 
 export const socketHandler = (io) => {
+
   function getConnectedClients(roomId) {
     return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
       (socketId) => {
@@ -29,8 +30,9 @@ export const socketHandler = (io) => {
     });
 
 
-    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
-      io.to(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, value }) => {
+            socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { value });
+
     });
 
     socket.on("disconnecting", () => {
