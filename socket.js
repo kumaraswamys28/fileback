@@ -28,12 +28,11 @@ export const socketHandler = (io) => {
       });
     });
 
-    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, value }) => {
-      socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { value });
+    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+      
+      socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
     });
-     socket.on(ACTIONS.SYNC_CODE, ({ socketId, value }) => {
-      io.to(socketId).emit(ACTIONS.CODE_CHANGE, { value });
-    });
+     
 
     socket.on("disconnecting", () => {
       const rooms = Array.from(socket.rooms);
