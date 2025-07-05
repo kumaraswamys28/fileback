@@ -3,6 +3,7 @@ import { ACTIONS } from "./actions.js";
 const userMapping = {};
 
 export const socketHandler = (io) => {
+
   function getConnectedClients(roomId) {
     return Array.from(io.sockets.adapter.rooms.get(roomId) || []).map(
       (socketId) => {
@@ -28,23 +29,22 @@ export const socketHandler = (io) => {
       });
     });
 
-    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, value }) => {
-      socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { value });
-    });
-     socket.on(ACTIONS.SYNC_CODE, ({ socketId, value }) => {
-      io.to(socketId).emit(ACTIONS.CODE_CHANGE, { value });
+
+    socket.on(ACTIONS.CODE_CHANGE, ({ roomId, code }) => {
+            socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
+
     });
 
     socket.on("disconnecting", () => {
-      const rooms = Array.from(socket.rooms);
-      rooms.forEach((roomId) => {
-        socket.in(roomId).emit(ACTIONS.DISCONNECT, {
-          socketId: socket.id,
-          username: userMapping[socket.id],
+        const rooms = Array.from(socket.rooms);
+        rooms.forEach((roomId) => {
+          socket.in(roomId).emit(ACTIONS.DISCONNECT, {
+            socketId: socket.id,
+            username: userMapping[socket.id],
+          });
         });
-      });
-      delete userMapping[socket.id];
-      socket.leave();
+        delete userMapping[socket.id];
+        socket.leave();
     });
 
     socket.on("message", (msg) => {
