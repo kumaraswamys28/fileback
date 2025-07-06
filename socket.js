@@ -34,6 +34,11 @@ export const socketHandler = (io) => {
             socket.in(roomId).emit(ACTIONS.CODE_CHANGE, { code });
 
     });
+    socket.on(ACTIONS.SYNC_CODE, ({ code,socketId }) => {
+console.log("Syncing code to socket:", socketId, code);      
+            io.to(socketId).emit(ACTIONS.CODE_CHANGE, { code });
+
+    });
 
     socket.on("disconnecting", () => {
         const rooms = Array.from(socket.rooms);
