@@ -1,0 +1,25 @@
+create s3 bucket and disable block public access 
+in permission tab in cors 
+[
+    {
+        "AllowedHeaders": [
+            "*"
+        ],
+        "AllowedMethods": [
+            "GET",
+            "PUT",
+            "POST",
+            "DELETE"
+        ],
+        "AllowedOrigins": [
+            "http://localhost:3000",
+            "https://your-frontend-domain.com"
+        ],
+        "ExposeHeaders": [
+            "ETag"
+        ]
+    }
+]
+
+
+now creat iam 
